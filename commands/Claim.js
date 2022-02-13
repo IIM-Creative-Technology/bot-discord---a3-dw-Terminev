@@ -8,7 +8,7 @@ const db = require('../database')
  */
 module.exports.run = async (client, message, arguments) => {
     db.executeQuery("SELECT * FROM xp WHERE user_id = " + message.author.id + " AND guild_id = " + message.guildId)
-        .then((resp) => {
+        .then(async(resp) => {
             if (resp[0]) {
                 const level = resp[0].xp_level
                 const roleName = 'Niveau ' + level
@@ -47,6 +47,9 @@ module.exports.run = async (client, message, arguments) => {
                         }
                     }
                 }
+            }else{
+                await db.executeQuery("INSERT INTO xp (user_id, guild_id) VALUES (" + message.author.id + ", " + message.guildId + ")")
+                await client.commands.get('claim').run(client,message)
             }
         })
 };
