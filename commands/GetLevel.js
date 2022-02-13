@@ -12,7 +12,7 @@ module.exports.run = async (client, message, arguments) => {
         .then((resp)=> {
             if(resp[0]){
                 // Permets d'envoyer sur le channel le niveau actuel de l'utilisateur
-                message.channel.send(`:ballot_box: **| <@${message.author.id}> tu es level ${resp[0].xp_level}**`)
+                message.channel.send(`:ballot_box: **| <@${message.author.id}> tu es level ${resp[0].xp_level} et tu as ${resp[0].xp_count}xp**`)
             }
         })
     }

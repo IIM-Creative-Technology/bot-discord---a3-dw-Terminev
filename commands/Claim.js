@@ -15,12 +15,12 @@ module.exports.run = async (client, message, arguments) => {
                 var nbr = 0
                 const role = message.guild.roles.cache.map(r => r)
                 for (var i = 0; i < role.length; i++) {
-                    // Si il trouve le role ayant le bon nom alors il l'ajoute a l'utilisateur
+                    // Si il trouve le rôle ayant le bon nom alors il l'ajoute à l'utilisateur
                     if (role[i].name == roleName) {
                         message.member.roles.add(role[i].id)
                         message.channel.send(`<@${message.author.id}> Vous avez le role ` + roleName)
                     }
-                    // Si il trouve le role ayant un niveau inférieur a celui voulu alors il l'enlève a l'utilisateur
+                    // Si il trouve le rôle ayant un niveau inférieur à celui voulu alors il l'enlève a l'utilisateur
                     else if (role[i].name.split(' ')[0] == 'Niveau') {
                         message.member.roles.remove(role[i].id)
                         nbr += 1
@@ -35,7 +35,7 @@ module.exports.run = async (client, message, arguments) => {
                         }
                     } else {
                         nbr += 1
-                        // Si la valeur de nbr est égale a role.length, c'est que le role n'existe pas alors le bot créer le role et l'atribue a l'utilisateur
+                        // Si la valeur de nbr est égale à rôle.length, c'est que le rôle n'existe pas alors le bot créer le rôle et l'attribue à l'utilisateur
                         if (nbr == role.length) {
                             message.guild.roles.create({
                                     name: roleName,

@@ -6,7 +6,7 @@ const Discord = require('discord.js');
  * @param {Array<String>} arguments
  */
 module.exports.run = async (client, message, arguments) => {
-    /* Fonction permettant de supprimer entre 1 et 100 messages sur le channel ou la commande est utilisé */
+    /* Fonction permettant de supprimer entre 1 et 100 messages sur le channel ou la commande est utilisée */
     var nbr = message.content.split(" ")[1]
     nbr = parseInt(nbr)
     if(nbr <= 100){

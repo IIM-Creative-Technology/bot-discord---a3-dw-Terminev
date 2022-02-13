@@ -11,10 +11,10 @@ module.exports.run = async (client, message, arguments) => {
           .then(async(resp) => {
             const role = message.guild.roles.cache.map(r => r)
             if (resp[0]) {
-              // On initialise le niveau de difficulté qui augmente au fur et a mesure du niveau de l'utilisateur
+              // On initialise le niveau de difficulté qui augmente au fur et à mesure du niveau de l'utilisateur
               const diff = 4 + resp[0].xp_level
               if (resp[0].xp_count < diff) {
-                // Si le score actuel est inférieur a la difficulté alors xp + 1
+                // Si le score actuel est inférieur à la difficulté alors xp + 1
                 const score = resp[0].xp_count += 1
                 db.executeQuery("UPDATE `xp` SET `xp_count`='" + score + "' WHERE user_id =" + resp[0].user_id + " AND guild_id = " + message.guildId)
               } else {
@@ -24,12 +24,12 @@ module.exports.run = async (client, message, arguments) => {
                 const roleName = 'Niveau ' + level
                 var nbr = 0
                 for (var i = 0; i < role.length; i++) {
-                  // Si il trouve le role ayant le bon nom alors il l'ajoute a l'utilisateur
+                  // Si il trouve le rôle ayant le bon nom alors il l'ajoute à l'utilisateur
                   if (role[i].name == roleName) {
                     message.member.roles.add(role[i].id)
                     message.channel.send(`<@${message.author.id}> Vous avez le role ` + roleName)
                   }
-                  // Si il trouve le role ayant un niveau inférieur a celui voulu alors il l'enlève a l'utilisateur
+                  // Si il trouve le rôle ayant un niveau inférieur à celui voulu alors il l'enlève a l'utilisateur
                   else if (role[i].name.split(' ')[0] == 'Niveau') {
                     message.member.roles.remove(role[i].id)
                     nbr += 1
@@ -45,7 +45,7 @@ module.exports.run = async (client, message, arguments) => {
                     }
                   } else {
                     nbr += 1
-                    // Si la valeur de nbr est égale a role.length, c'est que le role n'existe pas alors le bot créer le role et l'atribue a l'utilisateur
+                    // Si la valeur de nbr est égale à role.length, c'est que le rôle n'existe pas alors le bot créer le role et l'attribue à l'utilisateur
                     if (nbr == role.length) {
                       message.guild.roles.create({
                           name: roleName,
@@ -60,10 +60,10 @@ module.exports.run = async (client, message, arguments) => {
                 }
               }
             } else {
-              // Si l'utilisateur n'existe pas alors le bot l'insert dans la BDD, mais la valeur d'xp_count est initialisé a 1 car il a envoyé un message 
+              // Si l'utilisateur n'existe pas alors le bot l'insert dans la BDD, mais la valeur d'xp_count est initialisée à 1 car il a envoyé un message 
               db.executeQuery("INSERT INTO xp ( `xp_count`, `user_id`, `guild_id`) VALUES ('1','" + message.author.id + "', '" + message.guildId + "')")
             }
-            /* Permets de verifier si le message ne contient pas d'insulte */
+            /* Permets de vérifier si le message ne contient pas d'insulte */
             await client.commands.get('messageinsulte').run(client,message)
                 
             /* Permets de faire le bridge entre les différents serveurs */

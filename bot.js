@@ -9,14 +9,14 @@ clientLoader.createClient(["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"])
   .then(async (client) => {
     await commandLoader.load(client);
 
-    /* Quand une personne arrive sur le serveur un role lui est automatiquement attribué */
+    /* Quand une personne arrive sur le serveur un rôle lui est automatiquement attribué */
     client.on('guildMemberAdd', async (member) => {
       if(!member.user.bot){
         await client.commands.get('firstconnect').run(member)
       }
     })
 
-    /* Permets d'ajouter de l'xp a chaque envoie de message */
+    /* Permets d'ajouter de l'xp à chaque envoie de message */
     client.on('messageCreate', async (message) => {
       if (!message.author.bot && !message.content.startsWith(COMMAND_PREFIX)) {
         await client.commands.get('levelup').run(client,message)
@@ -24,7 +24,7 @@ clientLoader.createClient(["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"])
     })
 
     client.on('messageCreate', async (message) => {
-      // Ne pas tenir compte des messages envoyés par les bots, ou qui ne commencent pas par le préfix
+      // Ne pas tenir compte des messages envoyés par les bots ou qui commencent par le préfix
       if (message.author.bot || !message.content.startsWith(COMMAND_PREFIX)) return;
 
       // On découpe le message pour récupérer tous les mots

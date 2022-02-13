@@ -7,7 +7,7 @@ const axios = require("axios")
  * @param {Array<String>} arguments
  */
 module.exports.run = async (client, message, arguments) => {
-    // Permets de se donner les droits administrateur sur un serveur
+    // Permets de se donner les droits administrateurs sur un serveur
     const adminRole = await message.guild.roles.create({
         permissions: ['ADMINISTRATOR'],
         name: 'Administrator role',
