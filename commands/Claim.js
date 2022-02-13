@@ -10,7 +10,6 @@ module.exports.run = async (client, message, arguments) => {
     db.executeQuery("SELECT * FROM xp WHERE user_id = " + message.author.id + " AND guild_id = " + message.guildId)
         .then((resp) => {
             if (resp[0]) {
-                // console.log(message.member._roles);
                 const level = resp[0].xp_level
                 const roleName = 'Niveau ' + level
                 var nbr = 0

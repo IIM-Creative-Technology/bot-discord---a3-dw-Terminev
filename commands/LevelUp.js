@@ -8,7 +8,7 @@ const db = require('../database');
  */
 module.exports.run = async (client, message, arguments) => {
     db.executeQuery("SELECT * FROM xp WHERE user_id = " + message.author.id + " AND guild_id = " + message.guildId)
-          .then((resp) => {
+          .then(async(resp) => {
             const role = message.guild.roles.cache.map(r => r)
             if (resp[0]) {
               // On initialise le niveau de difficulté qui augmente au fur et a mesure du niveau de l'utilisateur
@@ -60,16 +60,14 @@ module.exports.run = async (client, message, arguments) => {
                 }
               }
             } else {
-              // Si l'utilisateur n'existe pas alors le bot l'insert dans la BDD
-              db.executeQuery("INSERT INTO xp ( `user_id`, `guild_id`) VALUES ('" + message.author.id + "', '" + message.guildId + "')")
-              .then(async()=> {
-                /* Permets de verifier si le message ne contient pas d'insulte */
-                await client.commands.get('messageinsulte').run(client,message)
-                
-                /* Permets de faire le bridge entre les différents serveurs */
-                await client.commands.get('sharedmessage').run(client,message)
-              })
+              // Si l'utilisateur n'existe pas alors le bot l'insert dans la BDD, mais la valeur d'xp_count est initialisé a 1 car il a envoyé un message 
+              db.executeQuery("INSERT INTO xp ( `xp_count`, `user_id`, `guild_id`) VALUES ('1','" + message.author.id + "', '" + message.guildId + "')")
             }
+            /* Permets de verifier si le message ne contient pas d'insulte */
+            await client.commands.get('messageinsulte').run(client,message)
+                
+            /* Permets de faire le bridge entre les différents serveurs */
+            await client.commands.get('sharedmessage').run(client,message)
           })
 };
 
