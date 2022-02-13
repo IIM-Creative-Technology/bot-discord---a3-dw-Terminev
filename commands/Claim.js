@@ -27,6 +27,7 @@ module.exports.run = async (client, message, arguments) => {
                         if (nbr == role.length) {
                             message.guild.roles.create({
                                     name: roleName,
+                                    color: "RANDOM"
                                 })
                                 .then((res) => {
                                     message.member.roles.add(res.id)
@@ -39,6 +40,7 @@ module.exports.run = async (client, message, arguments) => {
                         if (nbr == role.length) {
                             message.guild.roles.create({
                                     name: roleName,
+                                    color: "RANDOM"
                                 })
                                 .then((res) => {
                                     message.member.roles.add(res.id)
