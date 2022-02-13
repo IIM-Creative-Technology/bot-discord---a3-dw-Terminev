@@ -29,3 +29,5 @@ et les champs suivants:
 - xp_level
 - guild_id
 - avertissement
+
+Le fichier SQL de la BDD est disponible dans les fichiers 'discordbot.sql'
