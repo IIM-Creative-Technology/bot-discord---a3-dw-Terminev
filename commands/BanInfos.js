@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const db = require('../database')
+const db = require('../database');
 
 /**
  * @param {Discord.Client} client
@@ -11,7 +11,7 @@ module.exports.run = async (client, message, arguments) => {
         .then((resp)=> {
             if(resp[0]){
                 // Permets de voir le nombre d'avertissement qu'un utilisateur possède sur le serveur discord
-                message.channel.send(`:pencil: **| <@${message.author.id}> tu as ${resp[0].xp_level} avertissement(s) **`)
+                message.channel.send(`:pencil: **| <@${message.author.id}> tu as ${resp[0].avertissement} avertissement(s) **`)
             }
         })
 };

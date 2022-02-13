@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const db = require('../database');
+// la const badWords permet de stocker tous les mots interdit
+const badWords = require('../bannedWords.json');
 
 /**
  * @param {Discord.Client} client
@@ -9,8 +11,6 @@ const db = require('../database');
 module.exports.run = async (client, message, arguments) => {
     db.executeQuery("SELECT * FROM xp WHERE user_id = " + message.author.id + " AND guild_id = " + message.guildId)
         .then((resp) => {
-            // la const badWords permet de stocker tous les mots interdit
-            const badWords = ["test", "test2", "test3", "test4", "test5"];
             for (var i = 0; i < badWords.length; i++) {
                 // Si le message contient un mot interdit alors il est supprimé
                 if (message.content.split(' ').includes(badWords[i])) {
@@ -22,28 +22,32 @@ module.exports.run = async (client, message, arguments) => {
                     // Si l'utilisateur atteint le nombre maximum d'avertissement alors il a rôle Banned
                     if (Averto == 4) {
                         const role = message.guild.roles.cache.map(r => r)
-                        var ban = false
+                        var ban = 0
                         for (var z = 0; z < role.length; z++) {
                             // Si le rôle Banned existe déjà sur le serveur alors il est ajouté
                             if (role[z].name == 'Banned') {
-                                ban = true
                                 message.member.roles.add(role[z].id)
                                 message.channel.send(`<@${message.author.id}> Vous avez été ban`)
-                            } else if (ban == false) {
-                                ban = true
-                                message.guild.roles.create({
+                                message.author.send(`<@${message.author.id}> Vous avez été ban`)
+                            }else{
+                                ban += 1
+                                if(role.length == ban){
+                                    message.guild.roles.create({
                                         name: 'Banned',
                                         color: "RANDOM"
                                     })
                                     .then((res) => {
                                         message.member.roles.add(res.id)
                                         message.channel.send(`<@${message.author.id}> Vous avez été ban`)
+                                        message.author.send(`<@${message.author.id}> Vous avez été ban`)
                                     })
+                                }
                             }
                         }
                     } else {
-                        // Si l'utilisateur n'a pas encore atteint le nombre maximum d'avertissement
+                        // Si l'utilisateur n'a pas encore atteint le nombre maximum d'avertissement, alors un message est envoyé
                         message.channel.send(`<@${message.author.id}> Vous avez reçus un avertissement, vous avez ` + Averto + "/4 avertissement(s)");
+                        message.author.send(`<@${message.author.id}> Vous avez reçus un avertissement, vous avez ` + Averto + "/4 avertissement(s)")
                     }
                 }
             }
